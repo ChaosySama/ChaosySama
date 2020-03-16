@@ -23,7 +23,7 @@ script:
 #   - hexo deploy > /dev/null
 
 deploy:
-  provider: pages
+  provider: master
   skip-cleanup: true
   github-token: $GIT_REPO_TOKEN
   keep-history: true
