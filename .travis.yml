@@ -9,8 +9,8 @@ branches:
   only:
   - hexo
 
-install:
-  - source travis_env_init.sh
+# install:
+#   - source travis_env_init.sh
 
 script:
 #   - hexo clean
