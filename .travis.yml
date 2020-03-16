@@ -1,0 +1,32 @@
+language: node_js # 指定语言环境
+node_js:
+  - 10 # use nodejs v10 LTS
+dist: trusty # 指定系统版本。trusty 是指 Ubuntu 14.04 发行版的名称
+sudo: false # 是否需要 sudo 权限
+cache: npm
+
+branches:
+  only:
+  - hexo
+
+install:
+  - source travis_env_init.sh
+
+script:
+#   - hexo clean
+  - hexo generate
+
+# after_success:
+#   - hexo deploy > /dev/null
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GIT_REPO_TOKEN
+  keep-history: true
+  on:
+    branch: master
+  local-dir: public
+
+notifications:
+  email: true
