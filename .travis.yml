@@ -12,7 +12,7 @@ branches:
 install:
 #   - source travis_env_init.sh
   - npm install -g hexo
-  - npm install -g hexo-cli
+#   - npm install -g hexo-cli
   - npm install
 
 script:
@@ -23,7 +23,7 @@ script:
 #   - hexo deploy > /dev/null
 
 deploy:
-  provider: pages
+  provider: master
   skip-cleanup: true
   github-token: $GIT_REPO_TOKEN
   keep-history: true
