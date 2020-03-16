@@ -19,17 +19,17 @@ script:
 #   - hexo clean
   - hexo generate
 
-after_success:
-  - hexo deploy > /dev/null
+# after_success:
+#   - hexo deploy > /dev/null
 
-# deploy:
-#   provider: master
-#   skip-cleanup: true
-#   github-token: $GIT_REPO_TOKEN
-#   keep-history: true
-#   on:
-#     branch: master
-#   local-dir: public
+deploy:
+  provider: master
+  skip-cleanup: true
+  github-token: $GIT_REPO_TOKEN
+  keep-history: true
+  on:
+    branch: hexo
+  local-dir: public
 
 notifications:
   email: true
