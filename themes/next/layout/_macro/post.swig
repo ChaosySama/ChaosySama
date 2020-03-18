@@ -53,11 +53,14 @@
               </span>
               <span class="post-meta-item-text">{{ __('post.posted') }}</span>
 
+              <!-- do not show edit time
               {%- if not date_diff and time_diff and theme.post_meta.updated_at.enable and theme.post_meta.updated_at.another_day %}
                 {%- set create_title = __('post.created') + __('symbol.colon') + full_date(post.date) + ' / ' + __('post.modified') + __('symbol.colon') + time(post.updated) %}
               {% else %}
                 {%- set create_title = __('post.created') + __('symbol.colon') + full_date(post.date) %}
               {%- endif %}
+              -->
+              {%- set create_title = __('post.created') + __('symbol.colon') + full_date(post.date) %}
 
               <time title="{{ create_title }}" itemprop="dateCreated datePublished" datetime="{{ moment(post.date).format() }}">{{ date(post.date) }}</time>
             </span>
