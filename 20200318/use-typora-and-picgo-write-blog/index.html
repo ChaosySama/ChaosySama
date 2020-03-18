@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"chaosysama.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="作为程序猿，总会有一些经验总结，想要写下来，方便以后自己回顾。但是本地的话，换个环境或者换个端，就没法即时查看了。之前一直使用的是 oneNote，多端同步，除了一些常见的诟病，其实还是很方便的，不过对于和别人分享来说，实在是不太方便。于是就想到用 hexo  +  github page 搭建一个免费的博客。既能写，又能定制，还能分享，最重要的是免费。">
-<meta name="keywords" content="blog,hexo,next">
+  <meta name="description" content="之前介绍了怎么使用github+hexo搭建个人白嫖博客的文章：Hexo 搭建个人博客 当时是一腔热情，可是写了几篇博客之后发现了许多问题，比如：  每次写文章都要hexo n，hexo g，hexo d各种代码敲来敲去(这就是&amp;#39;hexo cli&amp;#39;)才能发布到github上去。 因为上述原因，需要vim或vscode或其他文本编辑器书写markdown文章，然后用hexo cli">
+<meta name="keywords" content="typora,picgo,blog">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo 搭建个人博客">
-<meta property="og:url" content="https://chaosysama.github.io/20190914/use-hexo-build-blog/index.html">
+<meta property="og:title" content="使用Typora+图床工具PicGo写博客">
+<meta property="og:url" content="https://chaosysama.github.io/20200318/use-typora-and-picgo-write-blog/index.html">
 <meta property="og:site_name" content="Chaos話し">
-<meta property="og:description" content="作为程序猿，总会有一些经验总结，想要写下来，方便以后自己回顾。但是本地的话，换个环境或者换个端，就没法即时查看了。之前一直使用的是 oneNote，多端同步，除了一些常见的诟病，其实还是很方便的，不过对于和别人分享来说，实在是不太方便。于是就想到用 hexo  +  github page 搭建一个免费的博客。既能写，又能定制，还能分享，最重要的是免费。">
+<meta property="og:description" content="之前介绍了怎么使用github+hexo搭建个人白嫖博客的文章：Hexo 搭建个人博客 当时是一腔热情，可是写了几篇博客之后发现了许多问题，比如：  每次写文章都要hexo n，hexo g，hexo d各种代码敲来敲去(这就是&amp;#39;hexo cli&amp;#39;)才能发布到github上去。 因为上述原因，需要vim或vscode或其他文本编辑器书写markdown文章，然后用hexo cli">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-03-18T02:46:43.790Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo 搭建个人博客">
-<meta name="twitter:description" content="作为程序猿，总会有一些经验总结，想要写下来，方便以后自己回顾。但是本地的话，换个环境或者换个端，就没法即时查看了。之前一直使用的是 oneNote，多端同步，除了一些常见的诟病，其实还是很方便的，不过对于和别人分享来说，实在是不太方便。于是就想到用 hexo  +  github page 搭建一个免费的博客。既能写，又能定制，还能分享，最重要的是免费。">
+<meta name="twitter:title" content="使用Typora+图床工具PicGo写博客">
+<meta name="twitter:description" content="之前介绍了怎么使用github+hexo搭建个人白嫖博客的文章：Hexo 搭建个人博客 当时是一腔热情，可是写了几篇博客之后发现了许多问题，比如：  每次写文章都要hexo n，hexo g，hexo d各种代码敲来敲去(这就是&amp;#39;hexo cli&amp;#39;)才能发布到github上去。 因为上述原因，需要vim或vscode或其他文本编辑器书写markdown文章，然后用hexo cli">
 
-<link rel="canonical" href="https://chaosysama.github.io/20190914/use-hexo-build-blog/">
+<link rel="canonical" href="https://chaosysama.github.io/20200318/use-typora-and-picgo-write-blog/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>Hexo 搭建个人博客 | Chaos話し</title>
+  <title>使用Typora+图床工具PicGo写博客 | Chaos話し</title>
   
 
 
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chaosysama.github.io/20190914/use-hexo-build-blog/">
+    <link itemprop="mainEntityOfPage" href="https://chaosysama.github.io/20200318/use-typora-and-picgo-write-blog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -205,7 +205,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          Hexo 搭建个人博客
+          使用Typora+图床工具PicGo写博客
         </h2>
 
         <div class="post-meta">
@@ -214,18 +214,12 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-09-14 14:04:32" itemprop="dateCreated datePublished" datetime="2019-09-14T14:04:32+08:00">2019-09-14</time>
+              <time title="创建时间：2020-03-18 10:44:58 / 修改时间：10:46:43" itemprop="dateCreated datePublished" datetime="2020-03-18T10:44:58+08:00">2020-03-18</time>
             </span>
 
           <!-- do not show edit time
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-18 10:46:43" itemprop="dateModified" datetime="2020-03-18T10:46:43+08:00">2020-03-18</time>
-              </span>
           -->
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,14 +244,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>637</span>
+              <span>2.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -269,25 +263,68 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>作为程序猿，总会有一些经验总结，想要写下来，方便以后自己回顾。但是本地的话，换个环境或者换个端，就没法即时查看了。之前一直使用的是 <code>oneNote</code>，多端同步，除了一些常见的诟病，其实还是很方便的，不过对于和别人分享来说，实在是不太方便。于是就想到用 <code>hexo</code>  +  <code>github page</code> 搭建一个免费的博客。既能写，又能定制，还能分享，最重要的是免费。</p>
+        <blockquote>
+<p>之前介绍了怎么使用<code>github</code>+<code>hexo</code>搭建个人白嫖博客的文章：<a href="https://chaosysama.github.io/20190914/use-hexo-build-blog/">Hexo 搭建个人博客</a></p>
+<p>当时是一腔热情，可是写了几篇博客之后发现了许多问题，比如：</p>
+<ul>
+<li>每次写文章都要<code>hexo n</code>，<code>hexo g</code>，<code>hexo d</code>各种代码敲来敲去(这就是<code>&#39;hexo cli&#39;</code>)才能发布到<code>github</code>上去。</li>
+<li>因为上述原因，需要<code>vim</code>或<code>vscode</code>或其他文本编辑器书写<code>markdown</code>文章，然后用<code>hexo cli</code>操作，虽然<code>vscode</code>有<code>markdown</code>预览插件，但始终不是写作的感觉，更像是敲代码，体验不够好。</li>
+<li>写文章的时候，有时候会想加点配图，网上找的图片可能会出现无法外链的情况，有时候需要的配图是自己屏幕上的截图等等，这些加大了写作的难度，为了一张图片搞得很麻烦，也容易打断创作思路(本人写作白痴, 语体教, 你们看我文章也能感受到, 请多包涵)。</li>
+<li>……</li>
+</ul>
+<p>基于以上种种问题，消磨了文章创作的热情，就一鸽再鸽了。</p>
+<p>那么从这篇文章开始，会陆续的针对以上痛点，慢慢优化我的博客，大家也可以借鉴，我会努力踩坑，然后填平了写出来的。</p>
+<p>这篇文章解决的问题就是最直接的，关乎写作流畅度的问题，这也是极大提高创作信心的一步！<del>你看我都不鸽了</del></p>
+</blockquote>
 <a id="more"></a>
 
-<h2 id="hexo-的搭建"><a href="#hexo-的搭建" class="headerlink" title="hexo 的搭建"></a>hexo 的搭建</h2><p>网上已经有各种从零搭建教程，具体可以参考：</p>
-<p><a href="https://zhuanlan.zhihu.com/p/35668237" target="_blank" rel="noopener">超详细Hexo+Github博客搭建小白教程</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/26625249" target="_blank" rel="noopener">GitHub+Hexo 搭建个人网站详细教程</a></p>
-<p>上面两个其实内容差不多，我也是参考这两个教程搭建的。中间有些步骤想跳就跳，比如绑定域名啥啥的，初期的话可以先用起来，等到后面~~弃坑了，就不用麻烦了有新的需求了，再加上也不迟嘛。</p>
-<h2 id="主题的选择和优化"><a href="#主题的选择和优化" class="headerlink" title="主题的选择和优化"></a>主题的选择和优化</h2><p>搭建完成后，选择了一个比较大众的主题 <a href="https://theme-next.iissnan.com/" target="_blank" rel="noopener">Next</a> ，结合 Hexo 主题优化的教程：</p>
-<p><a href="https://www.jianshu.com/p/efbeddc5eb19" target="_blank" rel="noopener">Hexo+Next个人博客主题优化</a></p>
-<p>加一些方便的功能，修改一些样式之类的，总之自己觉得好用就好。拿不准的功能可以加上去看看，不好可以删嘛。</p>
-<p>于是花点时间捣鼓捣鼓就变成现在这个样子了，不想花时间，直接开始写也可以，看各人喜好了。</p>
-<h2 id="文章的编写和发布"><a href="#文章的编写和发布" class="headerlink" title="文章的编写和发布"></a>文章的编写和发布</h2><p>教程里写的很明白了，这里就不多描述了，总结下来就是下面几步：</p>
-<pre class=" language-shell"><code class="language-shell">hexo n "new article"
-vim source/_posts/new-article.md
-hexo g && hexo s</code></pre>
-<p>就可以在本地浏览了。</p>
-<p>然后</p>
-<pre class=" language-shell"><code class="language-shell">hexo d</code></pre>
-<p>就可以去 github 上浏览了。（需要过几分钟）</p>
+<p>温馨提示：太长不看版可以跳转到最后的<a href="#con">总结</a></p>
+<h2 id="Typora"><a href="#Typora" class="headerlink" title="Typora"></a>Typora</h2><p>首先介绍一下<a href="https://www.typora.io" target="_blank" rel="noopener">Typora</a>，大家从官网就可以看出<code>Typora</code>的逼格有点高，即写即渲染，功能强大，小巧轻便，是我喜欢的极简风格，实际体验过程中也证实，确实写作起来很舒服，很容易让自己有一种沉浸式写作的快感。也明白了为什么网上很多人推崇它的原因。<del>我也无脑粉了！</del>它还有个打字机模式，这个虽然很不习惯，但是逼格真的高，大家可以一试。</p>
+<p>所以，既然大家都要用<code>markdown</code>写作，不妨使用这款神器。另外，它的一个重要的功能，也是这篇文章的核心，也是不得不推荐它的主要原因，这个不知道别的编辑器有没有，不过应该没有<code>Typora</code>体验这么好。</p>
+<p>这个重要的功能下文会结合别的工具介绍。</p>
+<h2 id="图床"><a href="#图床" class="headerlink" title="图床"></a>图床</h2><p>上面介绍完了写作工具，接下来介绍一下图床，众所周知，为了避免开头说的，图片防外链，图片地址失效，找不到网络图片，使用本地截图等等原因，一个好的图床是必须的。</p>
+<p>图床，顾名思义就是图片 <del>睡觉</del> 保管的地方。上面提到的众多问题的最佳解决方案是什么？当然就是 <del>让别人帮你</del> 有一个自己可控的图床。</p>
+<p>那么问题又来了，图床和博客一样，之前的做法都是找个云服务器搭建起来提供资源外链，现在我们博客白嫖了，图床能不能也白嫖呢？好消息好消息，图床可以白嫖啦！而且就在<code>github</code>白嫖，没错！我们可以把博客和图床放在一起管理！</p>
+<blockquote>
+<p> 你只要把图片保存下来，上传到<code>github</code>仓库，就会有图片的外链出来供你使用，是不是很简单！</p>
+</blockquote>
+<p>上面这句话是废话，大部分人都想得到，只是和博客一样，敲代码管理，我们是不喜欢的。更何况还要结合写作文章，想想就难。但这个就是下面介绍解决方案的原理，虽然不重要，哈哈哈，我们继续。</p>
+<blockquote>
+<p>补充一下，你也可以选择其他的图床(<code>sm.ms</code>,<code>imgur</code>,<code>各种云图床</code>等等)，免费的也有很多，不过要注册和管理啥的，我这边优选<code>github</code>，因为可以和博客一起管理。<del>要死一起死</del></p>
+</blockquote>
+<h2 id="PicGo"><a href="#PicGo" class="headerlink" title="PicGo"></a>PicGo</h2><p>图床废话了一大堆，接下来聊聊图床工具，图床工具的作用就是简化我上面说的废话，没错，只要通过工具，就可以自动上传图片，得到外链地址，是不是很激动。</p>
+<p>于是经过一番 <del>搜索</del> 调研，我发现了<a href="https://picgo.github.io/PicGo-Doc/zh/" target="_blank" rel="noopener">PicGo</a>，支持拖拽，自动复制链接，上传方便，大家可以在官网下载，是轻便，开源，有保障的应用。顺便一提，这个好像是国人开发的，支持一波~</p>
+<p>具体的下载，安装，设置，大家参照官网文档，没什么难度的，这里我就不介绍了。</p>
+<p>这里需要讲一下图床设置中的<code>GitHub图床</code>，官方文档的配置如下：</p>
+<p><img data-src="https://raw.githubusercontent.com/ChaosySama/ChaosySama.github.io/img/image-20200317153222449.png" alt="image-20200317153222449"></p>
+<p>这里因为要和博客的放在同一个仓库中，所以可以提前在博客的仓库中新建一个<code>img</code>分支，用来保管上传的图片。然后上面设定分支名的时候设置为<code>img</code>，这样就不用担心博客部署之后，图片文件被覆盖的问题了，因为不在同一个分支上。</p>
+<h2 id="结合"><a href="#结合" class="headerlink" title="结合"></a>结合</h2><p>通过上面的配置和使用，图床问题解决了，写作工具和图片上传问题也解决了，下面那么怎么让整个过程更一体化呢？这也是上面提到过的，推荐<code>Typora</code>的主因之一，它的设置中自带插入图片时上传功能，并且可以完美结合<code>PicGo</code>，只要你开启了<code>PicGo App</code>或者<code>PicGo cli</code>就可以在写作过程中自动上传图片到仓库。</p>
+<p><img data-src="https://raw.githubusercontent.com/ChaosySama/ChaosySama.github.io/img/image-20200318093957720.png" alt="image-20200318093957720"></p>
+<p>注意，如果上传图片失败，往往是没有使用相对路径，导致上传命令找不到图片所在位置，这时候勾选上就可以。记得设置完成后验证一下图片上传。</p>
+<p>有时候会遇到怎么都上传不成功的情况，目前遇到的情况主要有2种：</p>
+<ul>
+<li><p>仓库中已有同名的图片。</p>
+<p>这里可以打开<code>PicGo</code>设置中的<code>时间戳重命名</code>功能，因为我们暂时不整理图片仓库，所以不需要有意义的命名，如果以后想自主管理图片，到时候再研究更好的实践方案。</p>
+</li>
+<li><p>还有可能是<code>PicGo</code>的Server服务卡住了，只要重启一下<code>PicGo</code>就好。</p>
+</li>
+</ul>
+<p>那么经过上面的设置，就可以开始愉快的写作啦，图片也是用到的时候直接截图或者拖进<code>Typora</code>就可以了，快去体验吧！</p>
+<p>顺带推荐一下截图工具<a href="https://zh.snipaste.com/" target="_blank" rel="noopener">Snipaste</a>，用过的都说好！</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><span id="con">总结</span></h2><h4 id="Typora-PicGo的食用方法"><a href="#Typora-PicGo的食用方法" class="headerlink" title="Typora+PicGo的食用方法"></a>Typora+PicGo的食用方法</h4><ol>
+<li>安装并配置<a href="https://picgo.github.io/PicGo-Doc/zh/" target="_blank" rel="noopener">PicGo</a>，使用<code>Github图床</code>，在博客的仓库创建<code>img</code>分支用于提交保存图片。</li>
+<li>安装并配置<a href="https://www.typora.io" target="_blank" rel="noopener">Typora</a>，在配置中使用<code>PicGo</code>服务，实现在<code>Typora</code>中上传图片功能。</li>
+<li>开吃。</li>
+</ol>
+<h4 id="不足和改进"><a href="#不足和改进" class="headerlink" title="不足和改进"></a>不足和改进</h4><ul>
+<li><p>这篇文章解决了写作这一核心问题，但是写作完之后还是有一系列繁琐的生成部署行为需要手动执行。</p>
+<p>之后会研究怎么使用Travis CI，来持续集成，保证我们只要专心写作就可以。</p>
+</li>
+<li><p>图床中的图片为了保证不重名，大部分以时间戳形式命名保存，这很不利于管理，并且没有划分日期文件夹，容易造成所有图片在同一目录下，造成视觉上和操作上的不便。</p>
+<p>如果以后<code>PicGo</code>功能更新到可以支持上面按日期分目录上传的功能，那是最好的。</p>
+<p>如果没有，可能需要研究其他的解决方案（如果需要管理图床的话）</p>
+</li>
+</ul>
 
     </div>
 
@@ -297,9 +334,9 @@ hexo g && hexo s</code></pre>
 
       <footer class="post-footer">
           <div class="post-tags">
+              <a href="/tags/typora/" rel="tag"># typora</a>
+              <a href="/tags/picgo/" rel="tag"># picgo</a>
               <a href="/tags/blog/" rel="tag"># blog</a>
-              <a href="/tags/hexo/" rel="tag"># hexo</a>
-              <a href="/tags/next/" rel="tag"># next</a>
           </div>
 
         
@@ -307,11 +344,11 @@ hexo g && hexo s</code></pre>
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/20190919/mylife-19-9-19/" rel="next" title="日谈9.19">
-      日谈9.19 <i class="fa fa-chevron-right"></i>
+    <a href="/20191003/meshi-qingjiao-potato/" rel="prev" title="中华二番-蒜香青椒土豆条">
+      <i class="fa fa-chevron-left"></i> 中华二番-蒜香青椒土豆条
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -371,7 +408,7 @@ hexo g && hexo s</code></pre>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo-的搭建"><span class="nav-number">1.</span> <span class="nav-text">hexo 的搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主题的选择和优化"><span class="nav-number">2.</span> <span class="nav-text">主题的选择和优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文章的编写和发布"><span class="nav-number">3.</span> <span class="nav-text">文章的编写和发布</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Typora"><span class="nav-number">1.</span> <span class="nav-text">Typora</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图床"><span class="nav-number">2.</span> <span class="nav-text">图床</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PicGo"><span class="nav-number">3.</span> <span class="nav-text">PicGo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结合"><span class="nav-number">4.</span> <span class="nav-text">结合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Typora-PicGo的食用方法"><span class="nav-number">5.0.1.</span> <span class="nav-text">Typora+PicGo的食用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不足和改进"><span class="nav-number">5.0.2.</span> <span class="nav-text">不足和改进</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
