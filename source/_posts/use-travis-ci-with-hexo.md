@@ -148,11 +148,11 @@ deploy:
    如果仓库的提交记录看起来不干净，不想继承之前的提交记录 ~~想重新做人~~ 怎么办？就可以用这条来从头开始你的commit记录。
 
    这里如果需要使用的话，需要取消注释并且将下面几行注释掉:
-   
+
 ```yml
-   - cd ../
-   - mv .deploy_git/.git/ ./public/
-   - cd ./public
+- cd ../
+- mv .deploy_git/.git/ ./public/
+- cd ./public
 ```
 
 ## 提交测试
