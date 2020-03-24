@@ -3,7 +3,7 @@ node_js:
   - 10 # use nodejs v10 LTS
 dist: trusty # 指定系统版本。trusty 是指 Ubuntu 14.04 发行版的名称
 sudo: false # 是否需要 sudo 权限
-cache: npm
+cache: npm # 是否缓存npm相关文件
 
 branches:
   only:
