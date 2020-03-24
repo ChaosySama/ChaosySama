@@ -126,34 +126,34 @@ notifications:
 
 下面解释一下文件中注释掉的部分：
 
-1. deploy配置项
+- deploy配置项
 
-   ```yml
-    deploy:
-      provider: gh-pages
-      skip-cleanup: true
-      github-token: $GIT_REPO_TOKEN
-      keep-history: true
-      on:
-        branch: hexo
-      local-dir: public
-   ```
+```yml
+deploy:
+    provider: gh-pages
+    skip-cleanup: true
+    github-token: $GIT_REPO_TOKEN
+    keep-history: true
+    on:
+    branch: hexo
+    local-dir: public
+```
 
    这个是一开始踩坑的时候官网推荐的配置`yml`文件的方法，但是经过验证，这个只适用于非同名根仓库（即仓库名<span style="color: red">不是</span>github_username.github.io的仓库），而我们这个不属于这个范围，所以不能用这个配置项。如果是非同名仓库来做博客的话，需要在仓库的设置中开启github page，然后再用上面的配置即可。
 
    我们的仓库属于同名仓库，所以得用after_success方法，模拟手动push的方式来执行。
 
-2. after_success中的` - git init`
+- after_success中的`- git init`
 
    如果仓库的提交记录看起来不干净，不想继承之前的提交记录 ~~想重新做人~~ 怎么办？就可以用这条来从头开始你的commit记录。
 
    这里如果需要使用的话，需要取消注释并且将下面几行注释掉:
-
-   ```yml
-     - cd ../
-     - mv .deploy_git/.git/ ./public/
-     - cd ./public
-   ```
+   
+```yml
+   - cd ../
+   - mv .deploy_git/.git/ ./public/
+   - cd ./public
+```
 
 ## 提交测试
 
