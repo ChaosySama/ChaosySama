@@ -124,7 +124,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">11</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">13</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">5</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">6</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -190,6 +190,111 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chaosysama.github.io/20200324/use-travis-ci-with-hexo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chaos">
+      <meta itemprop="description" content="Don't know coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chaos話し">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/20200324/use-travis-ci-with-hexo/" class="post-title-link" itemprop="url">使用Travis CI自动化部署博客</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <!-- do not show edit time
+              
+              -->
+
+              <time title="创建时间：2020-03-24 14:01:28" itemprop="dateCreated datePublished" datetime="2020-03-24T14:01:28+08:00">2020-03-24</time>
+            </span>
+
+          <!-- do not show edit time
+          -->
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>上一篇文章解决了写文章时候的各种琐碎的事情的痛点，这篇我们来解决一下剩下来的痛点：文章的部署，也就是环境搭建和一系列<code>hexo</code>相关操作。</p>
+<p>同样先想一下我们的需求：</p>
+<ul>
+<li>不需要每次写完文章都用一系列<code>hexo</code>操作来部署</li>
+<li>在新的环境中能快速修改并提交部署，比如github上直接修改</li>
+</ul>
+<p>也就是说，我们需要一个平台来帮我们监控代码提交，然后自动执行<code>hexo</code>的一系列操作，我们只需要提交<code>.md</code>文件到仓库即可。</p>
+<p>这个需求就是所谓的持续集成(Continuous Integration)，简称CI</p>
+</blockquote>
+<p>那么接下来，我们就研究一下怎么给我们的博客用上CI来简化我们的部署操作。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/20200324/use-travis-ci-with-hexo/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://chaosysama.github.io/20200318/use-typora-and-picgo-write-blog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -226,7 +331,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-24 14:22:31" itemprop="dateModified" datetime="2020-03-24T14:22:31+08:00">2020-03-24</time>
+                <time title="修改时间：2020-03-24 14:39:49" itemprop="dateModified" datetime="2020-03-24T14:39:49+08:00">2020-03-24</time>
               </span>
           -->
             <span class="post-meta-item">
@@ -339,7 +444,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-24 14:22:31" itemprop="dateModified" datetime="2020-03-24T14:22:31+08:00">2020-03-24</time>
+                <time title="修改时间：2020-03-24 14:39:49" itemprop="dateModified" datetime="2020-03-24T14:39:49+08:00">2020-03-24</time>
               </span>
           -->
             <span class="post-meta-item">
@@ -440,7 +545,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-24 14:22:31" itemprop="dateModified" datetime="2020-03-24T14:22:31+08:00">2020-03-24</time>
+                <time title="修改时间：2020-03-24 14:39:49" itemprop="dateModified" datetime="2020-03-24T14:39:49+08:00">2020-03-24</time>
               </span>
           -->
             <span class="post-meta-item">
@@ -541,7 +646,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-24 14:22:31" itemprop="dateModified" datetime="2020-03-24T14:22:31+08:00">2020-03-24</time>
+                <time title="修改时间：2020-03-24 14:39:49" itemprop="dateModified" datetime="2020-03-24T14:39:49+08:00">2020-03-24</time>
               </span>
           -->
             <span class="post-meta-item">
@@ -642,7 +747,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-24 14:22:31" itemprop="dateModified" datetime="2020-03-24T14:22:31+08:00">2020-03-24</time>
+                <time title="修改时间：2020-03-24 14:39:49" itemprop="dateModified" datetime="2020-03-24T14:39:49+08:00">2020-03-24</time>
               </span>
           -->
             <span class="post-meta-item">
@@ -772,7 +877,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -785,7 +890,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
