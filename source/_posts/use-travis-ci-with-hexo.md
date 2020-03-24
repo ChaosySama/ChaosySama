@@ -1,9 +1,14 @@
 ---
 title: 使用Travis CI自动化部署博客
 comments: true
-tags: [blog, hexo, travis, ci]
-date: 2020-03-24 14:01:28
+tags:
+  - blog
+  - hexo
+  - travis
+  - ci
 categories: Tech
+abbrlink: 56331
+date: 2020-03-24 14:01:28
 ---
 
 > 上一篇文章解决了写文章时候的各种琐碎的事情的痛点，这篇我们来解决一下剩下来的痛点：文章的部署，也就是环境搭建和一系列`hexo`相关操作。

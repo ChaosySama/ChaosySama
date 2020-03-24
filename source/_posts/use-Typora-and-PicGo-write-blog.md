@@ -1,9 +1,13 @@
 ---
 title: 使用Typora+图床工具PicGo写博客
 comments: true
-tags: [typora, picgo, blog]
-date: 2020-03-18 10:44:58
+tags:
+  - typora
+  - picgo
+  - blog
 categories: Tech
+abbrlink: 58331
+date: 2020-03-18 10:44:58
 ---
 
 > 之前介绍了怎么使用`github`+`hexo`搭建个人白嫖博客的文章：[Hexo 搭建个人博客](https://chaosysama.github.io/20190914/use-hexo-build-blog/)
