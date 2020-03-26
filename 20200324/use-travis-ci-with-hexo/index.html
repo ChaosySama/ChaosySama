@@ -1,4 +1,316 @@
-<!-- build time:Tue Mar 24 2020 15:55:39 GMT+0800 (China Standard Time) --><!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 3.9.0"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css"><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"chaosysama.github.io",root:"/",scheme:"Pisces",version:"7.7.2",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12,onmobile:!1},copycode:{enable:!0,show_result:!1,style:null},back2top:{enable:!0,sidebar:!0,scrollpercent:!0},bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!1,mediumzoom:!0,lazyload:!0,pangu:!0,comments:{style:"tabs",active:"gitalk",storage:!0,lazyload:!0,nav:null,activeClass:"gitalk"},algolia:{hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!0,trigger:"auto",top_n_per_article:1,unescape:!1,preload:!1},motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},path:"search.xml"}</script><meta name="description" content="上一篇文章解决了写文章时候的各种琐碎的事情的痛点，这篇我们来解决一下剩下来的痛点：文章的部署，也就是环境搭建和一系列hexo相关操作。同样先想一下我们的需求：不需要每次写完文章都用一系列hexo操作来部署在新的环境中能快速修改并提交部署，比如github上直接修改也就是说，我们需要一个平台来帮我们监控代码提交，然后自动执行hexo的一系列操作，我们只需要提交.md文件到仓库即可。这个需求就是所谓的"><meta name="keywords" content="blog,hexo,travis,ci"><meta property="og:type" content="article"><meta property="og:title" content="使用Travis CI自动化部署博客"><meta property="og:url" content="https://chaosysama.github.io/20200324/use-travis-ci-with-hexo/index.html"><meta property="og:site_name" content="Chaos話し"><meta property="og:description" content="上一篇文章解决了写文章时候的各种琐碎的事情的痛点，这篇我们来解决一下剩下来的痛点：文章的部署，也就是环境搭建和一系列hexo相关操作。同样先想一下我们的需求：不需要每次写完文章都用一系列hexo操作来部署在新的环境中能快速修改并提交部署，比如github上直接修改也就是说，我们需要一个平台来帮我们监控代码提交，然后自动执行hexo的一系列操作，我们只需要提交.md文件到仓库即可。这个需求就是所谓的"><meta property="og:locale" content="zh-CN"><meta property="og:updated_time" content="2020-03-24T07:55:15.320Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="使用Travis CI自动化部署博客"><meta name="twitter:description" content="上一篇文章解决了写文章时候的各种琐碎的事情的痛点，这篇我们来解决一下剩下来的痛点：文章的部署，也就是环境搭建和一系列hexo相关操作。同样先想一下我们的需求：不需要每次写完文章都用一系列hexo操作来部署在新的环境中能快速修改并提交部署，比如github上直接修改也就是说，我们需要一个平台来帮我们监控代码提交，然后自动执行hexo的一系列操作，我们只需要提交.md文件到仓库即可。这个需求就是所谓的"><link rel="canonical" href="https://chaosysama.github.io/20200324/use-travis-ci-with-hexo/"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0}</script><title>使用Travis CI自动化部署博客 | Chaos話し</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container use-motion"><div class="headband"></div><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span> <span class="toggle-line toggle-line-middle"></span> <span class="toggle-line toggle-line-last"></span></div></div><div class="site-meta"><div><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">Chaos話し</span> <span class="logo-line-after"><i></i></span></a></div></div><div class="site-nav-right"><div class="toggle popup-trigger"><i class="fa fa-search fa-fw fa-lg"></i></div></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">13</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">3</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">6</span></a></li><li class="menu-item menu-item-search"><a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索</a></li></ul></nav><div class="site-search"><div class="search-pop-overlay"><div class="popup search-popup"><div class="search-header"><span class="search-icon"><i class="fa fa-search"></i></span><div class="search-input-container"><input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input"></div><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span></div><div id="search-result"><div id="no-result"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div></div></div></div></div></div></header><div class="reading-progress-bar"></div><main class="main"><div class="main-inner"><div class="content-wrap"><div class="content"><div class="posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://chaosysama.github.io/20200324/use-travis-ci-with-hexo/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.png"><meta itemprop="name" content="Chaos"><meta itemprop="description" content="Don't know coding"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="Chaos話し"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">使用Travis CI自动化部署博客</h2><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span><time title="创建时间：2020-03-24 14:01:28" itemprop="dateCreated datePublished" datetime="2020-03-24T14:01:28+08:00">2020-03-24</time> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a> </span></span><span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display:none"><span class="post-meta-item-icon"><i class="fa fa-eye"></i> </span><span class="post-meta-item-text">阅读次数：</span> <span id="busuanzi_value_page_pv"></span></span><br><span class="post-meta-item" title="本文字数"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i> </span><span class="post-meta-item-text">本文字数：</span> <span>3.4k</span> </span><span class="post-meta-item" title="阅读时长"><span class="post-meta-item-icon"><i class="fa fa-clock-o"></i> </span><span class="post-meta-item-text">阅读时长 &asymp;</span> <span>3 分钟</span></span></div></header><div class="post-body" itemprop="articleBody"><blockquote><p>上一篇文章解决了写文章时候的各种琐碎的事情的痛点，这篇我们来解决一下剩下来的痛点：文章的部署，也就是环境搭建和一系列<code>hexo</code>相关操作。</p><p>同样先想一下我们的需求：</p><ul><li>不需要每次写完文章都用一系列<code>hexo</code>操作来部署</li><li>在新的环境中能快速修改并提交部署，比如github上直接修改</li></ul><p>也就是说，我们需要一个平台来帮我们监控代码提交，然后自动执行<code>hexo</code>的一系列操作，我们只需要提交<code>.md</code>文件到仓库即可。</p><p>这个需求就是所谓的持续集成(Continuous Integration)，简称CI</p></blockquote><p>那么接下来，我们就研究一下怎么给我们的博客用上CI来简化我们的部署操作。</p><a id="more"></a><h2 id="仓库构成"><a href="#仓库构成" class="headerlink" title="仓库构成"></a>仓库构成</h2><p>为了避免混乱，先说一下我们目前的仓库构成。首先，我们为了白嫖，并且主域名访问，所以创建了一个github_username.github.io的同名仓库，这个仓库下的master分支会被映射到外网访问。</p><p>这个仓库目前有3个分支：<code>master</code>，<code>hexo</code>，<code>img</code></p><ul><li>hexo分支：我们存放hexo相关的配置，文章的仓库，也是我们下面使用CI主要用到的仓库。</li><li>master分支：使用hexo生成，部署到的分支，也是github pages用来访问的分支。</li><li>img分支：<a href="https://chaosysama.github.io/20200318/use-typora-and-picgo-write-blog">上篇文章</a> 中创建的图床分支。</li></ul><h2 id="Travis-CI"><a href="#Travis-CI" class="headerlink" title="Travis CI"></a>Travis CI</h2><p>提到CI，市面上有各种类似的产品，如果大家有兴趣可以自行研究一下。这里主要介绍一下<a href="https://travis-ci.org/" target="_blank" rel="noopener">Travis CI</a>，它的好处是，可以关联github仓库，很方便的设置需要持续集成的仓库。并且配置简单易懂，界面清爽，最重要的是免费！<del>对，又可以白嫖了</del></p><h4 id="关联github账号"><a href="#关联github账号" class="headerlink" title="关联github账号"></a>关联github账号</h4><p>打开Travis CI的页面，点击Sign Up，就可以授权关联自己的github账号，之后会有一段时间用来拉取你的所有仓库，耐心等待即可。</p><h4 id="准备travis用的github-token"><a href="#准备travis用的github-token" class="headerlink" title="准备travis用的github token"></a>准备travis用的github token</h4><p>在github页面，点击头像，选择Settings -&gt; Developer settings -&gt; Personal access token -&gt; Generate new token。在Note栏中填写travis_ci用来标记这个token是给travis用的，下面的权限选择repo的所有就可以，其他都不用选择，travis也用不到（越少的权限越安全）。</p><p><img data-src="https://raw.githubusercontent.com/ChaosySama/ChaosySama.github.io/img/image-20200324112117866.png" alt="image-20200324112117866"></p><p>之后就是生成token，复制页面中的token备用（注意，token只显示一次，刷新之后就看不到了，不过如果忘记或者没有复制，可以点击Regenerate token来重新生成）</p><h4 id="travis中关联仓库-amp-设置"><a href="#travis中关联仓库-amp-设置" class="headerlink" title="travis中关联仓库&amp;设置"></a>travis中关联仓库&amp;设置</h4><p>在travis的dashboard页面中，点击左侧<code>+</code>号，关联自己的仓库。在需要的仓库右侧开启即可。开启后点击旁边的<code>Settings</code>按钮。</p><p>在<code>General</code>里把<code>Build pushed pull requests</code>关闭，不关也可以，这个用不上。</p><p>在<code>Environment Variables</code>里定义以下几个变量，方便之后配置使用：</p><ul><li>GIT_REPO_TOKEN: 上面生成的token</li><li>GIT_NAME: github账号的用户名</li><li>GIT_EMAIL: github账号的邮箱</li><li>GIT_REPO: 需要操作的仓库的地址，用来<code>git clone</code>使用的，在哪找就不多说了，注意需要把前面的<code>http://</code>删除</li></ul><p>这里的Branch都默认<code>All branches</code>即可，后面<code>DISPLAY VALUE IN BUILD LOG</code>保持关闭状态，这样不会有泄露信息的风险，之后点击<code>Add</code>按钮添加变量。</p><p><img data-src="https://raw.githubusercontent.com/ChaosySama/ChaosySama.github.io/img/image-20200324135440300.png" alt="image-20200324135440300"></p><h4 id="hexo分支的配置"><a href="#hexo分支的配置" class="headerlink" title="hexo分支的配置"></a>hexo分支的配置</h4><p>travis需要根据<code>.travis.yml</code>文件来配置环境和执行我们需要的操作。</p><p>于是我们可以在仓库的<code>hexo</code>分支的根目录，创建一个配置文件<code>.travis.yml</code>，内容如下（可参考）：</p><pre class="language-yml"><code class="language-yml">language: node_js # 指定语言环境
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chaosysama.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="上一篇文章解决了写文章时候的各种琐碎的事情的痛点，这篇我们来解决一下剩下来的痛点：文章的部署，也就是环境搭建和一系列hexo相关操作。 同样先想一下我们的需求：  不需要每次写完文章都用一系列hexo操作来部署 在新的环境中能快速修改并提交部署，比如github上直接修改  也就是说，我们需要一个平台来帮我们监控代码提交，然后自动执行hexo的一系列操作，我们只需要提交.md文件到仓库即可。 这">
+<meta name="keywords" content="blog,hexo,travis,ci">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Travis CI自动化部署博客">
+<meta property="og:url" content="https://chaosysama.github.io/20200324/use-travis-ci-with-hexo/index.html">
+<meta property="og:site_name" content="Chaos話し">
+<meta property="og:description" content="上一篇文章解决了写文章时候的各种琐碎的事情的痛点，这篇我们来解决一下剩下来的痛点：文章的部署，也就是环境搭建和一系列hexo相关操作。 同样先想一下我们的需求：  不需要每次写完文章都用一系列hexo操作来部署 在新的环境中能快速修改并提交部署，比如github上直接修改  也就是说，我们需要一个平台来帮我们监控代码提交，然后自动执行hexo的一系列操作，我们只需要提交.md文件到仓库即可。 这">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-03-26T02:47:13.027Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Travis CI自动化部署博客">
+<meta name="twitter:description" content="上一篇文章解决了写文章时候的各种琐碎的事情的痛点，这篇我们来解决一下剩下来的痛点：文章的部署，也就是环境搭建和一系列hexo相关操作。 同样先想一下我们的需求：  不需要每次写完文章都用一系列hexo操作来部署 在新的环境中能快速修改并提交部署，比如github上直接修改  也就是说，我们需要一个平台来帮我们监控代码提交，然后自动执行hexo的一系列操作，我们只需要提交.md文件到仓库即可。 这">
+
+<link rel="canonical" href="https://chaosysama.github.io/20200324/use-travis-ci-with-hexo/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>使用Travis CI自动化部署博客 | Chaos話し</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chaos話し</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">16</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">7</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chaosysama.github.io/20200324/use-travis-ci-with-hexo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chaos">
+      <meta itemprop="description" content="Don't know coding">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chaos話し">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          使用Travis CI自动化部署博客
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <!-- do not show edit time
+              -->
+
+              <time title="创建时间：2020-03-24 14:01:28" itemprop="dateCreated datePublished" datetime="2020-03-24T14:01:28+08:00">2020-03-24</time>
+            </span>
+
+          <!-- do not show edit time
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-26 10:47:13" itemprop="dateModified" datetime="2020-03-26T10:47:13+08:00">2020-03-26</time>
+              </span>
+          -->
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>上一篇文章解决了写文章时候的各种琐碎的事情的痛点，这篇我们来解决一下剩下来的痛点：文章的部署，也就是环境搭建和一系列<code>hexo</code>相关操作。</p>
+<p>同样先想一下我们的需求：</p>
+<ul>
+<li>不需要每次写完文章都用一系列<code>hexo</code>操作来部署</li>
+<li>在新的环境中能快速修改并提交部署，比如github上直接修改</li>
+</ul>
+<p>也就是说，我们需要一个平台来帮我们监控代码提交，然后自动执行<code>hexo</code>的一系列操作，我们只需要提交<code>.md</code>文件到仓库即可。</p>
+<p>这个需求就是所谓的持续集成(Continuous Integration)，简称CI</p>
+</blockquote>
+<p>那么接下来，我们就研究一下怎么给我们的博客用上CI来简化我们的部署操作。</p>
+<a id="more"></a>
+
+<h2 id="仓库构成"><a href="#仓库构成" class="headerlink" title="仓库构成"></a>仓库构成</h2><p>为了避免混乱，先说一下我们目前的仓库构成。首先，我们为了白嫖，并且主域名访问，所以创建了一个github_username.github.io的同名仓库，这个仓库下的master分支会被映射到外网访问。</p>
+<p>这个仓库目前有3个分支：<code>master</code>，<code>hexo</code>，<code>img</code></p>
+<ul>
+<li>hexo分支：我们存放hexo相关的配置，文章的仓库，也是我们下面使用CI主要用到的仓库。</li>
+<li>master分支：使用hexo生成，部署到的分支，也是github pages用来访问的分支。</li>
+<li>img分支：<a href="https://chaosysama.github.io/20200318/use-typora-and-picgo-write-blog">上篇文章</a> 中创建的图床分支。</li>
+</ul>
+<h2 id="Travis-CI"><a href="#Travis-CI" class="headerlink" title="Travis CI"></a>Travis CI</h2><p>提到CI，市面上有各种类似的产品，如果大家有兴趣可以自行研究一下。这里主要介绍一下<a href="https://travis-ci.org/" target="_blank" rel="noopener">Travis CI</a>，它的好处是，可以关联github仓库，很方便的设置需要持续集成的仓库。并且配置简单易懂，界面清爽，最重要的是免费！<del>对，又可以白嫖了</del></p>
+<h4 id="关联github账号"><a href="#关联github账号" class="headerlink" title="关联github账号"></a>关联github账号</h4><p>打开Travis CI的页面，点击Sign Up，就可以授权关联自己的github账号，之后会有一段时间用来拉取你的所有仓库，耐心等待即可。</p>
+<h4 id="准备travis用的github-token"><a href="#准备travis用的github-token" class="headerlink" title="准备travis用的github token"></a>准备travis用的github token</h4><p>在github页面，点击头像，选择Settings -&gt; Developer settings -&gt; Personal access token -&gt; Generate new token。在Note栏中填写travis_ci用来标记这个token是给travis用的，下面的权限选择repo的所有就可以，其他都不用选择，travis也用不到（越少的权限越安全）。</p>
+<p><img data-src="https://raw.githubusercontent.com/ChaosySama/ChaosySama.github.io/img/image-20200324112117866.png" alt="image-20200324112117866"></p>
+<p>之后就是生成token，复制页面中的token备用（注意，token只显示一次，刷新之后就看不到了，不过如果忘记或者没有复制，可以点击Regenerate token来重新生成）</p>
+<h4 id="travis中关联仓库-amp-设置"><a href="#travis中关联仓库-amp-设置" class="headerlink" title="travis中关联仓库&amp;设置"></a>travis中关联仓库&amp;设置</h4><p>在travis的dashboard页面中，点击左侧<code>+</code>号，关联自己的仓库。在需要的仓库右侧开启即可。开启后点击旁边的<code>Settings</code>按钮。</p>
+<p>在<code>General</code>里把<code>Build pushed pull requests</code>关闭，不关也可以，这个用不上。</p>
+<p>在<code>Environment Variables</code>里定义以下几个变量，方便之后配置使用：</p>
+<ul>
+<li>GIT_REPO_TOKEN: 上面生成的token</li>
+<li>GIT_NAME: github账号的用户名</li>
+<li>GIT_EMAIL: github账号的邮箱</li>
+<li>GIT_REPO: 需要操作的仓库的地址，用来<code>git clone</code>使用的，在哪找就不多说了，注意需要把前面的<code>http://</code>删除</li>
+</ul>
+<p>这里的Branch都默认<code>All branches</code>即可，后面<code>DISPLAY VALUE IN BUILD LOG</code>保持关闭状态，这样不会有泄露信息的风险，之后点击<code>Add</code>按钮添加变量。</p>
+<p><img data-src="https://raw.githubusercontent.com/ChaosySama/ChaosySama.github.io/img/image-20200324135440300.png" alt="image-20200324135440300"></p>
+<h4 id="hexo分支的配置"><a href="#hexo分支的配置" class="headerlink" title="hexo分支的配置"></a>hexo分支的配置</h4><p>travis需要根据<code>.travis.yml</code>文件来配置环境和执行我们需要的操作。</p>
+<p>于是我们可以在仓库的<code>hexo</code>分支的根目录，创建一个配置文件<code>.travis.yml</code>，内容如下（可参考）：</p>
+<pre class=" language-yml"><code class="language-yml">language: node_js # 指定语言环境
 node_js:
   - 10 # use nodejs v10 LTS
 dist: trusty # 指定系统版本。trusty 是指 Ubuntu 14.04 发行版的名称
@@ -43,22 +355,108 @@ after_success:
 #   local-dir: public
 
 notifications:
-  email: true</code></pre><p>下面解释一下文件中注释掉的部分：</p><ul><li>deploy配置项</li></ul><pre class="language-yml"><code class="language-yml">deploy:
+  email: true</code></pre>
+<p>下面解释一下文件中注释掉的部分：</p>
+<ul>
+<li>deploy配置项</li>
+</ul>
+<pre class=" language-yml"><code class="language-yml">deploy:
     provider: gh-pages
     skip-cleanup: true
     github-token: $GIT_REPO_TOKEN
     keep-history: true
     on:
     branch: hexo
-    local-dir: public</code></pre><p>这个是一开始踩坑的时候官网推荐的配置<code>yml</code>文件的方法，但是经过验证，这个只适用于非同名根仓库（即仓库名<span style="color:red">不是</span>github_username.github.io的仓库），而我们这个不属于这个范围，所以不能用这个配置项。如果是非同名仓库来做博客的话，需要在仓库的设置中开启github page，然后再用上面的配置即可。</p><p>我们的仓库属于同名仓库，所以得用after_success方法，模拟手动push的方式来执行。</p><ul><li><p>after_success中的<code>- git init</code></p><p>如果仓库的提交记录看起来不干净，不想继承之前的提交记录 <del>想重新做人</del> 怎么办？就可以用这条来从头开始你的commit记录。</p><p>这里如果需要使用的话，需要取消注释并且将下面几行注释掉:</p></li></ul><pre class="language-yml"><code class="language-yml">- cd ../
+    local-dir: public</code></pre>
+<p>   这个是一开始踩坑的时候官网推荐的配置<code>yml</code>文件的方法，但是经过验证，这个只适用于非同名根仓库（即仓库名<span style="color: red">不是</span>github_username.github.io的仓库），而我们这个不属于这个范围，所以不能用这个配置项。如果是非同名仓库来做博客的话，需要在仓库的设置中开启github page，然后再用上面的配置即可。</p>
+<p>   我们的仓库属于同名仓库，所以得用after_success方法，模拟手动push的方式来执行。</p>
+<ul>
+<li><p>after_success中的<code>- git init</code></p>
+<p> 如果仓库的提交记录看起来不干净，不想继承之前的提交记录 <del>想重新做人</del> 怎么办？就可以用这条来从头开始你的commit记录。</p>
+<p> 这里如果需要使用的话，需要取消注释并且将下面几行注释掉:</p>
+</li>
+</ul>
+<pre class=" language-yml"><code class="language-yml">- cd ../
 - mv .deploy_git/.git/ ./public/
-- cd ./public</code></pre><h2 id="提交测试"><a href="#提交测试" class="headerlink" title="提交测试"></a>提交测试</h2><p><code>.travis.yml</code>文件配置完后，就可以push一波，看看travis那边的执行情况了。</p><pre class="language-shell"><code class="language-shell">git add .travis.yml
+- cd ./public</code></pre>
+<h2 id="提交测试"><a href="#提交测试" class="headerlink" title="提交测试"></a>提交测试</h2><p><code>.travis.yml</code>文件配置完后，就可以push一波，看看travis那边的执行情况了。</p>
+<pre class=" language-shell"><code class="language-shell">git add .travis.yml
 git commit -m 'test'
-git push</code></pre><p>多刷新几下可以看到，已经在构建中了。</p><p><img data-src="https://raw.githubusercontent.com/ChaosySama/ChaosySama.github.io/img/image-20200324142319011.png" alt="image-20200324142319011"></p><p>如果构建没什么问题的话，大概1分钟不到，就构建完了，构建成功或者失败都会发邮件到邮箱中。</p><p>如果构建失败，可以查看Current选项卡下方的<code>Job log</code>，会有报错信息。</p><p>成功之后，去仓库的master分支，就可以看到commit记录中多了刚刚构建的一条。</p><p>大功告成。</p><h2 id="travis接入后的使用"><a href="#travis接入后的使用" class="headerlink" title="travis接入后的使用"></a>travis接入后的使用</h2><p>既然travis已经成功接入了我们的博客，那么以后我们写完文章就可以更方便了，下面是大概的流程：</p><pre class="language-shell"><code class="language-shell">hexo n test-travis # 使用hexo n是为了创建hexo相关的头部，有时间，类别等信息可以自己编辑
+git push</code></pre>
+<p>多刷新几下可以看到，已经在构建中了。</p>
+<p><img data-src="https://raw.githubusercontent.com/ChaosySama/ChaosySama.github.io/img/image-20200324142319011.png" alt="image-20200324142319011"></p>
+<p>如果构建没什么问题的话，大概1分钟不到，就构建完了，构建成功或者失败都会发邮件到邮箱中。</p>
+<p>如果构建失败，可以查看Current选项卡下方的<code>Job log</code>，会有报错信息。</p>
+<p>成功之后，去仓库的master分支，就可以看到commit记录中多了刚刚构建的一条。</p>
+<p>大功告成。</p>
+<h2 id="travis接入后的使用"><a href="#travis接入后的使用" class="headerlink" title="travis接入后的使用"></a>travis接入后的使用</h2><p>既然travis已经成功接入了我们的博客，那么以后我们写完文章就可以更方便了，下面是大概的流程：</p>
+<pre class=" language-shell"><code class="language-shell">hexo n test-travis # 使用hexo n是为了创建hexo相关的头部，有时间，类别等信息可以自己编辑
 typora source/_posts/test-travis.md # 用typora一顿写
 git add .
 git commit -m 'new test-travis.md' # 这里的commit msg是提交到hexo分支的
-git push</code></pre><p>然后就可以坐等邮件通知，之后刷新几次博客页面就能看到刚才的文章已经发布上去了。</p><p>大家快试试看！</p></div><footer class="post-footer"><div class="post-tags"><a href="/tags/blog/" rel="tag"># blog</a> <a href="/tags/hexo/" rel="tag"># hexo</a> <a href="/tags/travis/" rel="tag"># travis</a> <a href="/tags/ci/" rel="tag"># ci</a></div><div class="post-nav"><div class="post-nav-item"><a href="/20200318/use-typora-and-picgo-write-blog/" rel="prev" title="使用Typora+图床工具PicGo写博客"><i class="fa fa-chevron-left"></i> 使用Typora+图床工具PicGo写博客</a></div><div class="post-nav-item"></div></div></footer></article></div></div><div class="comments" id="gitalk-container"></div><script>window.addEventListener('tabs:register', () => {
+git push</code></pre>
+<p>然后就可以坐等邮件通知，之后刷新几次博客页面就能看到刚才的文章已经发布上去了。</p>
+<p>大家快试试看！</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>Thank you for your support!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Chaos 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/blog/" rel="tag"># blog</a>
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+              <a href="/tags/travis/" rel="tag"># travis</a>
+              <a href="/tags/ci/" rel="tag"># ci</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/20200318/use-typora-and-picgo-write-blog/" rel="prev" title="使用Typora+图床工具PicGo写博客">
+      <i class="fa fa-chevron-left"></i> 使用Typora+图床工具PicGo写博客
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/20200325/win10-calendar-follow-light-effect/" rel="next" title="win10-calendar-follow-light-effect">
+      win10-calendar-follow-light-effect <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
@@ -76,7 +474,151 @@ git push</code></pre><p>然后就可以坐等邮件通知，之后刷新几次�
       let commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
-  }</script></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span> <span class="toggle-line toggle-line-middle"></span> <span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc">文章目录</li><li class="sidebar-nav-overview">站点概览</li></ul><div class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#仓库构成"><span class="nav-number">1.</span> <span class="nav-text">仓库构成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Travis-CI"><span class="nav-number">2.</span> <span class="nav-text">Travis CI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关联github账号"><span class="nav-number">2.0.1.</span> <span class="nav-text">关联github账号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#准备travis用的github-token"><span class="nav-number">2.0.2.</span> <span class="nav-text">准备travis用的github token</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#travis中关联仓库-amp-设置"><span class="nav-number">2.0.3.</span> <span class="nav-text">travis中关联仓库&amp;设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hexo分支的配置"><span class="nav-number">2.0.4.</span> <span class="nav-text">hexo分支的配置</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#提交测试"><span class="nav-number">3.</span> <span class="nav-text">提交测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#travis接入后的使用"><span class="nav-number">4.</span> <span class="nav-text">travis接入后的使用</span></a></li></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" alt="Chaos" src="/images/avatar.png"><p class="site-author-name" itemprop="name">Chaos</p><div class="site-description" itemprop="description">Don't know coding</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"><a href="/archives/"><span class="site-state-item-count">6</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/"><span class="site-state-item-count">3</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/"><span class="site-state-item-count">13</span> <span class="site-state-item-name">标签</span></a></div></nav></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/ChaosySama" title="GitHub → https://github.com/ChaosySama" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a> </span><span class="links-of-author-item"><a href="mailto:slmaaw@163.com" title="E-Mail → mailto:slmaaw@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a></span></div></div><div class="back-to-top motion-element"><i class="fa fa-arrow-up"></i> <span>0%</span></div></div></aside><div id="sidebar-dimmer"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2020</span> <span class="with-love"><i class="fa fa-heart"></i> </span><span class="author" itemprop="copyrightHolder">Chaos</span></div><div class="busuanzi-count"><script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span class="post-meta-item" id="busuanzi_container_site_uv" style="display:none"><span class="post-meta-item-icon"><i class="fa fa-user"></i> </span><span class="site-uv" title="总访客量"><span id="busuanzi_value_site_uv"></span> </span></span><span class="post-meta-divider">|</span> <span class="post-meta-item" id="busuanzi_container_site_pv" style="display:none"><span class="post-meta-item-icon"><i class="fa fa-eye"></i> </span><span class="site-pv" title="总访问量"><span id="busuanzi_value_site_pv"></span></span></span></div></div></footer></div><script src="/lib/anime.min.js"></script><script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script><script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script><script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script><script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script><script src="/lib/velocity/velocity.min.js"></script><script src="/lib/velocity/velocity.ui.min.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/pisces.js"></script><script src="/js/next-boot.js"></script><script>var pjax = new Pjax({
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#仓库构成"><span class="nav-number">1.</span> <span class="nav-text">仓库构成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Travis-CI"><span class="nav-number">2.</span> <span class="nav-text">Travis CI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关联github账号"><span class="nav-number">2.0.1.</span> <span class="nav-text">关联github账号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#准备travis用的github-token"><span class="nav-number">2.0.2.</span> <span class="nav-text">准备travis用的github token</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#travis中关联仓库-amp-设置"><span class="nav-number">2.0.3.</span> <span class="nav-text">travis中关联仓库&amp;设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hexo分支的配置"><span class="nav-number">2.0.4.</span> <span class="nav-text">hexo分支的配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交测试"><span class="nav-number">3.</span> <span class="nav-text">提交测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#travis接入后的使用"><span class="nav-number">4.</span> <span class="nav-text">travis接入后的使用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chaos"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Chaos</p>
+  <div class="site-description" itemprop="description">Don't know coding</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ChaosySama" title="GitHub → https://github.com/ChaosySama" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:slmaaw@163.com" title="E-Mail → mailto:slmaaw@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chaos</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+  <script>
+var pjax = new Pjax({
   selectors: [
     'head title',
     '#page-configurations',
@@ -130,7 +672,48 @@ window.addEventListener('pjax:success', () => {
       .bootstrap();
   }
   NexT.utils.updateSidebarPosition();
-});</script><script pjax>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script src="/js/local-search.js"></script><div id="pjax"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css"><script>NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+});
+</script>
+
+
+
+
+  
+  <script pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
     var gitalk = new Gitalk({
       clientID    : 'ed761fc79b4f9f50b957',
@@ -144,4 +727,9 @@ window.addEventListener('pjax:success', () => {
     });
     gitalk.render('gitalk-container');
   }, window.Gitalk);
-});</script></div></body></html><!-- rebuild by neat -->
+});
+</script>
+
+    </div>
+</body>
+</html>
